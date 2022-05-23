@@ -3,14 +3,20 @@ sample = "https://free.currconv.com/api/v7/convert?q=PKR_USD,USD_PKR&compact=ult
 api_key = "ff0ff8b8fa69d4fa532b"
 from_ = "USD"
 to = "PKR"
-query = from_+"_"+to
-key = "&compact=ultra&apikey="+api_key
+query = f"{from_}_{to}"
+key = f"&compact=ultra&apikey={api_key}"
 
-url = 'https://api.currconv.com/api/v7/convert?q='+query+key
+url = f'https://api.currconv.com/api/v7/convert?q={query}{key}'
 # Request for list  of all currencies
-req_currencies = requests.get("https://free.currconv.com/api/v7/currencies?apiKey="+api_key)
+req_currencies = requests.get(
+    f"https://free.currconv.com/api/v7/currencies?apiKey={api_key}"
+)
+
 # Request for list of all countries
-req_countries = requests.get("https://free.currconv.com/api/v7/countires?apiKey="+api_key)
+req_countries = requests.get(
+    f"https://free.currconv.com/api/v7/countires?apiKey={api_key}"
+)
+
 # Request for getting exchange rates
 url = sample+api_key
 req_rates = requests.get(url)

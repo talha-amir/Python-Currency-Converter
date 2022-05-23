@@ -49,22 +49,18 @@ class Database:
         """
         query = """select * from codes where name like ?
         """
-        self.cursor.execute(query,(name+"%",))
+        self.cursor.execute(query, (f"{name}%", ))
         data = self.cursor.fetchall()
         data.sort(key=lambda x: x[1])
-        temp = []
-        for i in data:
-            temp.append(i[1])
-        temp = list(set(temp))
-        temp.sort()
-
-        for i in range(0,len(data)):
+        temp = [i[1] for i in data]
+        temp = sorted(set(temp))
+        for i in range(len(data)):
             temp_lst = list(data[i])
             temp_lst.insert(0,str(i+1))
             temp_lst[1],temp_lst[2] = temp_lst[2],temp_lst[1]
             temp_lst = tuple(temp_lst)
             data[i] = temp_lst
-        
+
         return data
         # for i in data:
         #     print(i)
@@ -88,13 +84,13 @@ class Database:
         query = """select * from codes"""
         self.cursor.execute(query)
         data = self.cursor.fetchall()
-        for i in range(0,len(data)):
+        for i in range(len(data)):
             temp_lst = list(data[i])
             temp_lst.insert(0,str(i+1))
             temp_lst[1],temp_lst[2] = temp_lst[2],temp_lst[1]
             temp_lst = tuple(temp_lst)
             data[i] = temp_lst
-        
+
         return data
         # for i in data:
         #     print(i)
@@ -117,9 +113,9 @@ class API:
         This method returns the converted amount
         """
         query = f"{from1}_{to}&compact=ultra&apiKey="
-        url = 'https://free.currconv.com/api/v7/convert?q='+query+self.__apikey
+        url = f'https://free.currconv.com/api/v7/convert?q={query}{self.__apikey}'
         req = requests.get(url)
-        
+
         rate = dict(req.json())[f"{from1}_{to}"]
 
         amount = float(rate)*float(amount)
