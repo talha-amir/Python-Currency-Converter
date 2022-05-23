@@ -276,13 +276,12 @@ class Ui_Convertor(object):
     def fill_all(self):
         a = Model.Database()
         data =  a.get_codes()
-        
-        code = list(set(i[1] for i in data))
-        code.sort() 
+
+        code = sorted({i[1] for i in data})
         for i in code:
             self.comboBox_2.addItem(i)
             self.comboBox.addItem(i)
-        
+
 
         for row, form in enumerate(data):
             self.tableWidget.insertRow(row)
